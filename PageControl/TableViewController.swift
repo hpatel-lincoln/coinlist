@@ -2,6 +2,10 @@
 
 import UIKit
 
+protocol TableViewControllerDelegate: AnyObject {
+  func didScroll(_ scrollView: UIScrollView)
+}
+
 class TableViewController: UIViewController {
   
   struct Constants {
@@ -10,9 +14,10 @@ class TableViewController: UIViewController {
   }
   
   var itemLabel: String?
+  weak var delegate: TableViewControllerDelegate?
   
   private var tableView: UITableView!
-  private let numberOfItems: Int = 20
+  private let numberOfItems: Int = 50
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,6 +52,10 @@ class TableViewController: UIViewController {
 
 extension TableViewController: UITableViewDelegate {
   
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    delegate?.didScroll(scrollView)
+  }
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
   }
@@ -65,5 +74,12 @@ extension TableViewController: UITableViewDataSource {
     cell.textLabel?.textColor = Constants.TextColor
     cell.textLabel?.text = "\(itemLabel ?? "Label") - \(indexPath.row+1)"
     return cell
+  }
+}
+
+extension TableViewController {
+  
+  func scrollToTop() {
+    tableView.contentOffset.y = 0
   }
 }

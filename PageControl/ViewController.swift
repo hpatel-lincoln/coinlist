@@ -11,9 +11,14 @@ class ViewController: UIViewController {
     static let UnderlineColor = UIColor(hex: "#1E5128FF")
     static let UnderlineHeight: CGFloat = 2
     static let BackgroundColor = UIColor(hex: "#171717FF")
+    static let HeadingViewHeight: CGFloat = 150
   }
   
-  let titles: [String] = ["Tradable", "Watchlist", "New Listings", "All Assets"]
+  private var viewControllers: [TableViewController] = []
+  private let titles: [String] = ["Tradable",
+                                  "Watchlist",
+                                  "New Listings",
+                                  "All Assets"]
   
   private var headingView: UIView!
   private var headingViewTopCon = NSLayoutConstraint()
@@ -43,7 +48,7 @@ class ViewController: UIViewController {
       headingViewTopCon,
       headingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       headingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-      headingView.heightAnchor.constraint(equalToConstant: 150)
+      headingView.heightAnchor.constraint(equalToConstant: Constants.HeadingViewHeight)
     ]
     NSLayoutConstraint.activate(headingViewCon)
     
@@ -102,6 +107,7 @@ class ViewController: UIViewController {
   private func addChildViewControllers() {
     for title in titles {
       let viewController = createViewController(withTitle: title)
+      viewControllers.append(viewController)
       
       addChild(viewController)
       stackView.addArrangedSubview(viewController.view)
@@ -114,9 +120,10 @@ class ViewController: UIViewController {
     }
   }
     
-  private func createViewController(withTitle title: String) -> UIViewController {
+  private func createViewController(withTitle title: String) -> TableViewController {
     let viewController = TableViewController()
     viewController.itemLabel = title
+    viewController.delegate = self
     return viewController
   }
   
@@ -140,5 +147,34 @@ extension ViewController: UIScrollViewDelegate {
     
     pageControl.currentIndex = currentIndex
     pageControl.userDidScroll(toPercent: percent)
+  }
+}
+
+extension ViewController: TableViewControllerDelegate {
+  
+  func didScroll(_ scrollView: UIScrollView) {
+    let offsetY = scrollView.contentOffset.y
+    
+    // scrolling up and more room to move header up
+    if offsetY > 0 && headingViewTopCon.constant > -Constants.HeadingViewHeight  {
+      let newTopCon = max(-Constants.HeadingViewHeight, headingViewTopCon.constant - offsetY)
+      headingViewTopCon.constant = newTopCon
+      scrollView.contentOffset.y = 0
+    }
+    
+    // scrolling down and more room to move header down
+    if offsetY < 0 && headingViewTopCon.constant < 0 {
+      resetScroll()
+      let newTopCon = min(0, headingViewTopCon.constant - offsetY)
+      headingViewTopCon.constant = newTopCon
+      scrollView.contentOffset.y = 0
+    }
+  }
+  
+  private func resetScroll() {
+    for (index, viewController) in viewControllers.enumerated() {
+      if index == pageControl.currentIndex { continue }
+      viewController.scrollToTop()
+    }
   }
 }
