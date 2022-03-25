@@ -2,22 +2,21 @@
 
 import UIKit
 
-protocol TableViewControllerDelegate: AnyObject {
+protocol CoinsViewControllerDelegate: AnyObject {
   func didScroll(_ scrollView: UIScrollView)
 }
 
-class TableViewController: UIViewController {
+class CoinsViewController: UIViewController {
   
   struct Constants {
     static let TextFont = UIFont(name: "Avenir-Heavy", size: 12)
     static let TextColor = UIColor(hex: "#EDEDEDFF")
   }
   
-  var itemLabel: String?
-  weak var delegate: TableViewControllerDelegate?
+  weak var delegate: CoinsViewControllerDelegate?
   
   private var tableView: UITableView!
-  private let numberOfItems: Int = 50
+  private let coins = Coin.allCoins().sorted { $0.rank < $1.rank }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,7 +49,7 @@ class TableViewController: UIViewController {
   }
 }
 
-extension TableViewController: UITableViewDelegate {
+extension CoinsViewController: UITableViewDelegate {
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     delegate?.didScroll(scrollView)
@@ -61,10 +60,10 @@ extension TableViewController: UITableViewDelegate {
   }
 }
 
-extension TableViewController: UITableViewDataSource {
+extension CoinsViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return numberOfItems
+    return coins.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,12 +71,13 @@ extension TableViewController: UITableViewDataSource {
     cell.backgroundColor = .clear
     cell.textLabel?.font = Constants.TextFont
     cell.textLabel?.textColor = Constants.TextColor
-    cell.textLabel?.text = "\(itemLabel ?? "Label") - \(indexPath.row+1)"
+    let coin = coins[indexPath.row]
+    cell.textLabel?.text = "\(coin.name)"
     return cell
   }
 }
 
-extension TableViewController {
+extension CoinsViewController {
   
   func scrollToTop() {
     tableView.contentOffset.y = 0

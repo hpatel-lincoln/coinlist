@@ -2,11 +2,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
   
   struct Constants {
-    static let TitleFontBig = UIFont(name: "Avenir-Heavy", size: 32)
-    static let TitleFontSmall = UIFont(name: "Avenir-Heavy", size: 14)
+    static let HeadingFont = UIFont(name: "Avenir-Heavy", size: 32)
+    static let TitleFont = UIFont(name: "Avenir-Heavy", size: 14)
     static let TitleColor = UIColor(hex: "#EDEDEDFF")
     static let UnderlineColor = UIColor(hex: "#1E5128FF")
     static let UnderlineHeight: CGFloat = 2
@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     static let HeadingViewHeight: CGFloat = 150
   }
   
-  private var viewControllers: [TableViewController] = []
+  private var viewControllers: [CoinsViewController] = []
   private let titles: [String] = ["Tradable",
                                   "Watchlist",
                                   "New Listings",
@@ -53,11 +53,11 @@ class ViewController: UIViewController {
     NSLayoutConstraint.activate(headingViewCon)
     
     var container = AttributeContainer()
-    container.font = Constants.TitleFontSmall
+    container.font = Constants.TitleFont
     container.foregroundColor = Constants.TitleColor
     let options = PageControlOptions(underlineHeight: Constants.UnderlineHeight,
                                      underlineColor: Constants.UnderlineColor,
-                                     titleFont: Constants.TitleFontSmall,
+                                     titleFont: Constants.TitleFont,
                                      titleColor: Constants.TitleColor,
                                      titles: titles)
     pageControl = PageControl(frame: .zero, options: options)
@@ -120,9 +120,8 @@ class ViewController: UIViewController {
     }
   }
     
-  private func createViewController(withTitle title: String) -> TableViewController {
-    let viewController = TableViewController()
-    viewController.itemLabel = title
+  private func createViewController(withTitle title: String) -> CoinsViewController {
+    let viewController = CoinsViewController()
     viewController.delegate = self
     return viewController
   }
@@ -135,7 +134,7 @@ class ViewController: UIViewController {
   }
 }
 
-extension ViewController: UIScrollViewDelegate {
+extension MainViewController: UIScrollViewDelegate {
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let currentOffsetX = scrollView.contentOffset.x
@@ -150,7 +149,7 @@ extension ViewController: UIScrollViewDelegate {
   }
 }
 
-extension ViewController: TableViewControllerDelegate {
+extension MainViewController: CoinsViewControllerDelegate {
   
   func didScroll(_ scrollView: UIScrollView) {
     let offsetY = scrollView.contentOffset.y
