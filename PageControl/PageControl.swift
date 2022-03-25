@@ -2,54 +2,55 @@
 
 import UIKit
 
+struct PageControlOptions {
+  var underlineHeight: CGFloat
+  var underlineColor: UIColor?
+  var titleFont: UIFont?
+  var titleColor: UIColor?
+  var titles: [String]
+}
+
 class PageControl: UIControl {
   
   // Properties
-  private var isReset: Bool = true
-  
   var currentIndex: Int = 0 {
     didSet {
       currentIndex = max(min(titles.count-1, currentIndex), 0)
     }
   }
   
-  var underlineHeight: CGFloat = 0
-  
-  var underlineColor: UIColor? = nil {
-    didSet {
-      underline.backgroundColor = underlineColor
-    }
-  }
-
-  var titleAttributedContainer: AttributeContainer = AttributeContainer() {
-    didSet {
-      updateButtons()
-    }
-  }
-  
-  var titles: [String] = [] {
-    didSet {
-      isReset = true
-      addButtons()
-    }
-  }
+  private var firstRun: Bool = true
+  private var underlineHeight: CGFloat
+  private var underlineColor: UIColor?
+  private var titleFont: UIFont?
+  private var titleColor: UIColor?
+  private var titles: [String]
   
   // Views
   private var stackView: UIStackView!
   private var underline: UIView!
   
+  init(frame: CGRect, options: PageControlOptions) {
+    underlineHeight = options.underlineHeight
+    underlineColor = options.underlineColor
+    titleFont = options.titleFont
+    titleColor = options.titleColor
+    titles = options.titles
+    super.init(frame: frame)
+    initView()
+  }
+  
   // When the view is initialized from a Nib
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    initView()
+    fatalError("\(PageControl.self): init(coder:) has not been implemented")
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    if isReset && titles.isEmpty == false {
+    if firstRun && titles.isEmpty == false {
       stackView.layoutIfNeeded()
       positionUnderline(toIndex: currentIndex)
-      isReset = false
+      firstRun = false
     }
   }
   
@@ -85,12 +86,13 @@ class PageControl: UIControl {
     stackView = UIStackView()
     stackView.translatesAutoresizingMaskIntoConstraints = false
     stackView.axis = .horizontal
-    stackView.distribution = .fillProportionally
+    stackView.distribution = .equalSpacing
     stackView.alignment = .center
     addSubview(stackView)
     
     let stackViewConstraints = [
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
       stackView.topAnchor.constraint(equalTo: topAnchor),
       stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
     ]
@@ -105,16 +107,14 @@ class PageControl: UIControl {
   }
   
   private func addButtons() {
-    for view in stackView.arrangedSubviews {
-      view.removeFromSuperview()
-    }
-    
     guard titles.count > 0 else { return }
     
-    var configuration = UIButton.Configuration.plain()
     for (index, title) in titles.enumerated() {
-      configuration.attributedTitle = AttributedString(title, attributes: titleAttributedContainer)
-      let button = UIButton(configuration: configuration, primaryAction: nil)
+      let button = UIButton(type: .custom)
+      button.titleLabel?.font = titleFont
+      button.tintColor = titleColor
+      button.setTitle(title, for: .normal)
+      button.titleLabel?.numberOfLines = 1
       button.addTarget(self, action: #selector(onButtonTap(sender:)), for: .touchUpInside)
       button.tag = index
       stackView.addArrangedSubview(button)
@@ -139,21 +139,11 @@ class PageControl: UIControl {
   }
   
   private func getX(forIndex index: Int) -> CGFloat {
-    return stackView.arrangedSubviews[index].frame.origin.x
+    let x = stackView.arrangedSubviews[index].frame.origin.x
+    return x
   }
   
   private func getWidth(forIndex index: Int) -> CGFloat {
     return stackView.arrangedSubviews[index].frame.width
-  }
-  
-  private func updateButtons() {
-    for (index, view) in stackView.arrangedSubviews.enumerated() {
-      guard let button = view as? UIButton else {
-        continue
-      }
-      var buttonConfig = button.configuration
-      buttonConfig?.attributedTitle = AttributedString(titles[index], attributes: titleAttributedContainer)
-      button.configuration = buttonConfig
-    }
   }
 }
