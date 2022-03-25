@@ -115,22 +115,8 @@ class ViewController: UIViewController {
   }
     
   private func createViewController(withTitle title: String) -> UIViewController {
-    let viewController = UIViewController()
-    viewController.view.backgroundColor = Constants.BackgroundColor
-    
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = title
-    label.font = Constants.TitleFontBig
-    label.textColor = Constants.TitleColor
-    
-    viewController.view.addSubview(label)
-    let constraints = [
-      label.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
-      label.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
-    ]
-    NSLayoutConstraint.activate(constraints)
-    
+    let viewController = TableViewController()
+    viewController.itemLabel = title
     return viewController
   }
   
