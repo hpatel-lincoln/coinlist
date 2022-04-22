@@ -12,9 +12,9 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -26,9 +26,9 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -40,9 +40,9 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -54,7 +54,7 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<true/>
 	</dict>
@@ -124,9 +124,9 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -138,9 +138,9 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -152,7 +152,7 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<true/>
 	</dict>
@@ -180,7 +180,7 @@
 		<key>Tradable</key>
 		<false/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<false/>
 	</dict>
@@ -194,7 +194,7 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<false/>
 	</dict>
@@ -208,7 +208,7 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<false/>
 	</dict>
@@ -236,7 +236,7 @@
 		<key>Tradable</key>
 		<false/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<false/>
 	</dict>
@@ -262,11 +262,11 @@
 		<key>Rank</key>
 		<integer>19</integer>
 		<key>Tradable</key>
-		<false/>
+		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -278,7 +278,7 @@
 		<key>Tradable</key>
 		<true/>
 		<key>Watchlist</key>
-		<false/>
+		<true/>
 		<key>New</key>
 		<true/>
 	</dict>
@@ -294,13 +294,13 @@
 		<key>Watchlist</key>
 		<true/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>
 		<string>Tron</string>
 		<key>Icon</key>
-		<string>tron</string>
+		<string>trx</string>
 		<key>Rank</key>
 		<integer>23</integer>
 		<key>Tradable</key>
@@ -322,7 +322,7 @@
 		<key>Watchlist</key>
 		<false/>
 		<key>New</key>
-		<false/>
+		<true/>
 	</dict>
 	<dict>
 		<key>Name</key>

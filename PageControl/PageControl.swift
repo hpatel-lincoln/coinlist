@@ -112,9 +112,9 @@ class PageControl: UIControl {
     for (index, title) in titles.enumerated() {
       let button = UIButton(type: .custom)
       button.titleLabel?.font = titleFont
-      button.tintColor = titleColor
-      button.setTitle(title, for: .normal)
       button.titleLabel?.numberOfLines = 1
+      button.setTitle(title, for: .normal)
+      button.setTitleColor(titleColor, for: .normal)
       button.addTarget(self, action: #selector(onButtonTap(sender:)), for: .touchUpInside)
       button.tag = index
       stackView.addArrangedSubview(button)
